@@ -58,7 +58,7 @@ To solve the CC problem we can either read a signed graph with a .G graph file f
 
 See `run-bb.sh`, `run-bb-enum-all.sh`, `run-cp-bb.sh`, `run-cp-bb-enum-all.sh`, `run-cp-only.sh`, `run-lp-bb.sh` and `run-lp-bb-enum-all.sh` for more execution scenarios.
 
-* `run-bb.sh`: Branch&Bound for finding a single optimal solution. It does not include any valid inequalities (through Cutting Plane).
+* `run-bb.sh`: Branch&Bound for finding a single optimal solution. It does not include any valid inequalities that can be obtained through Cutting Plane.
 * `run-bb-enum-all.sh`: The same as `run-bb.sh`, but for enumerating all optimal solutions.
 * `run-cp-bb.sh`: It corresponds to one of two successful B&C applications mentioned abovemethod depending on the formulation type. It is for finding a single optimal solution.
 * `run-cp-bb-enum-all.sh`: The same as `run-cp-bb.sh`, but for enumerating all optimal solutions.
@@ -98,6 +98,6 @@ I thank Zacharie Ales for providing me with his code (for a similar problem), wh
 
 ### References
 
-* N. Arınık, *Multiplicity in the Partitioning of Signed Graphs*. PhD thesis in Avignon Université (2021).
-* A. Miyauchi, T. Sonobe, and N. Sukegawa,  *Exact Clustering via Integer Programming and Maximum Satisfiability*, in: AAAI Conference on Artificial Intelligence 32.1 (2018).
+* **[Arınık'21]** N. Arınık, *Multiplicity in the Partitioning of Signed Graphs*. PhD thesis in Avignon Université (2021).
+* **[Miyauchi'18]** A. Miyauchi, T. Sonobe, and N. Sukegawa,  *Exact Clustering via Integer Programming and Maximum Satisfiability*, in: AAAI Conference on Artificial Intelligence 32.1 (2018).
 
