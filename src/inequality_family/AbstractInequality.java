@@ -2,14 +2,14 @@ package inequality_family;
 
 import java.io.Serializable;
 
-import formulation.interfaces.IFormulation;
+import formulation.AbstractFormulation;
 import ilog.concert.IloException;
 import ilog.concert.IloRange;
 import variable.VariableGetter;
 
 
 
-public abstract class AbstractInequality<Formulation extends IFormulation> implements Serializable{
+public abstract class AbstractInequality<Formulation extends AbstractFormulation> implements Serializable{
 	
 	private static final long serialVersionUID = -6530941531155997162L;
 	public IloRange ilorange = null;
@@ -29,7 +29,7 @@ public abstract class AbstractInequality<Formulation extends IFormulation> imple
 		return range;
 	}
 	
-	public boolean setFormulation(IFormulation formulation) {
+	public boolean setFormulation(AbstractFormulation formulation) {
 		
 		boolean result = false;
 		

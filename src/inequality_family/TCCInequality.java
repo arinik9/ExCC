@@ -2,20 +2,21 @@ package inequality_family;
 
 import java.util.ArrayList;
 
-import formulation.interfaces.IFEdgeV;
+import formulation.AbstractFormulation;
 import ilog.concert.IloException;
 import ilog.concert.IloLinearNumExpr;
 import variable.VariableGetter;
 
+
 @SuppressWarnings("serial")
-public class TCCInequality extends AbstractInequality<IFEdgeV>{
+public class TCCInequality extends AbstractInequality<AbstractFormulation>{
 
 	public ArrayList<Integer> C = new ArrayList<Integer>();
 	public int[] inC;
 	public int p;
 
-	public TCCInequality(IFEdgeV formulation, int size) {
-		super(formulation, IFEdgeV.class);
+	public TCCInequality(AbstractFormulation formulation, int size) {
+		super(formulation, AbstractFormulation.class);
 		
 		inC = new int[formulation.n()];
 		C = new ArrayList<Integer>();
@@ -52,7 +53,7 @@ public class TCCInequality extends AbstractInequality<IFEdgeV>{
 	}
 
 	@Override
-	public AbstractInequality<IFEdgeV> clone() {
+	public AbstractInequality<AbstractFormulation> clone() {
 
 		TCCInequality clone = new TCCInequality(formulation, C.size());
 

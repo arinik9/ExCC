@@ -1,5 +1,6 @@
 package cplex;
 
+//import callback.presolve_callback.CallBackPresolveInfo;
 import ilog.concert.IloException;
 import ilog.concert.IloLinearNumExpr;
 import ilog.concert.IloNumExpr;
@@ -8,8 +9,10 @@ import ilog.concert.IloRange;
 import ilog.cplex.IloCplex;
 import ilog.cplex.IloCplex.BooleanParam;
 import ilog.cplex.IloCplex.ControlCallback;
+import ilog.cplex.IloCplex.CplexStatus;
 import ilog.cplex.IloCplex.DoubleParam;
 import ilog.cplex.IloCplex.IntParam;
+import ilog.cplex.IloCplex.LongParam;
 import ilog.cplex.IloCplex.ParameterSet;
 import ilog.cplex.IloCplex.UnknownObjectException;
 import inequality_family.Range;
@@ -42,6 +45,34 @@ public class Cplex {
 
 	}
 
+//	public void onlyDisplayRootRelaxation() {
+//
+//		//	cplex.setParam(IloCplex.IntParam.AggCutLim, -1);
+//		CallbackRootRelaxation rootCB = new CallbackRootRelaxation(true);
+//
+//		removeAutomaticCuts();
+//		turnOffCPOutput();
+//
+//		try {
+//			iloCplex.use(rootCB);
+//		} catch (IloException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
+
+
+//	public void displayPresolveInfo() {
+//
+//		//cplex.setParam(IloCplex.IntParam.AggCutLim, -1);
+//		CallBackPresolveInfo presolveCB = new CallBackPresolveInfo();
+//		try {
+//			iloCplex.use(presolveCB);
+//		} catch (IloException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	public void displayObjectiveFunction(){
 		try {
@@ -146,11 +177,6 @@ public class Cplex {
 	}
 
 
-	public IloRange addRange(Range r) throws IloException{
-		return iloCplex.addRange(r.lbound, r.expr, r.ubound);
-	}
-
-	
 	public IloLinearNumExpr linearNumExpr(){
 
 		try {
@@ -161,7 +187,18 @@ public class Cplex {
 		}
 	}
 
+	public IloRange addRange(Range r) throws IloException{
+		return iloCplex.addRange(r.lbound, r.expr, r.ubound);
+	}
 
+	//	public IloRange addLazyRange(Range r){
+	//		try {
+	//			return cplex.addLazyConstraint(cplex.range(r.lbound, r.expr, r.ubound));
+	//		} catch (IloException e) {
+	//			e.printStackTrace();
+	//			return null;
+	//		}
+	//	}
 
 	public IloRange addLe(IloLinearNumExpr expr, double bound) throws IloException {
 		return iloCplex.addLe(expr, bound);
@@ -203,6 +240,16 @@ public class Cplex {
 		}
 	}
 
+	
+	public void setParam(LongParam p, long value) {
+		try {
+			iloCplex.setParam(p, value);
+		} catch (IloException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public double getParam(DoubleParam p) throws IloException {
 		return iloCplex.getParam(p);
 	}
@@ -253,5 +300,15 @@ public class Cplex {
 			e.printStackTrace();
 		}
 	}	
+	
+	public CplexStatus getCplexStatus(){
+		try {
+			return(iloCplex.getCplexStatus());
+		} catch (IloException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return(CplexStatus.Unknown);
+	}
 
 }

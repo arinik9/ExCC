@@ -2,13 +2,13 @@ package inequality_family;
 
 import java.util.ArrayList;
 
-import formulation.interfaces.IFEdgeV;
+import formulation.AbstractFormulation;
 import ilog.concert.IloException;
 import ilog.concert.IloLinearNumExpr;
 import variable.VariableGetter;
 
 @SuppressWarnings("serial")
-public class STInequality extends AbstractInequality<IFEdgeV>{
+public class STInequality extends AbstractInequality<AbstractFormulation>{
 
 	public ArrayList<Integer> S = new ArrayList<Integer>();
 	public ArrayList<Integer> T = new ArrayList<Integer>();
@@ -16,8 +16,8 @@ public class STInequality extends AbstractInequality<IFEdgeV>{
 	public boolean[] inS;
 	public boolean[] inT;
 
-	public STInequality(IFEdgeV formulation){
-		super(formulation, IFEdgeV.class);
+	public STInequality(AbstractFormulation formulation){
+		super(formulation, AbstractFormulation.class);
 		
 		S = new ArrayList<Integer>();
 		T = new ArrayList<Integer>();
