@@ -459,9 +459,9 @@ public class MainExCC {
 					
 					
 					if(formulationType.equals("vertex"))
-						p.getCplex().iloCplex.exportModel(outputDirPath+"/"+"strengthedModel.lp");
+						p.getCplex().iloCplex.exportModel(outputDirPath+"/"+"strengthedModel_vertex.lp");
 					else
-						((FormulationEdge) p).registerLPmodel("strengthedModel.lp", lcb.getAddedCuts());
+						((FormulationEdge) p).registerLPmodel("strengthedModel", lcb.getAddedCuts());
 				}
 			
 			}

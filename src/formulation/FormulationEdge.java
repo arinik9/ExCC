@@ -137,7 +137,7 @@ public class FormulationEdge extends AbstractFormulation {
 				// Export model with valid inequalities generated during lazy callback
 				// ================================================================================
 				//formulation.getCplex().iloCplex.exportModel(this.outputDir+"/"+"strengthedModelAfterRootRelaxation.lp");
-				formulation.getCplex().iloCplex.exportModel(this.getOutputDirPath()+"/"+filenameLP);
+				formulation.getCplex().iloCplex.exportModel(this.getOutputDirPath()+"/"+filenameLP+"_edge.lp");
 
 				// ====================================================================================
 				

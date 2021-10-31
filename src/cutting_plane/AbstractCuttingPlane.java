@@ -555,9 +555,9 @@ public abstract class AbstractCuttingPlane<Formulation extends AbstractFormulati
 			//if(isInteger || onlyRootRelaxation){
 				try {
 					//System.out.println("\nGIRDI !!!!!" + addedCuts.size());
-					registerLPmodelAfterCP("strengthedModelAfterRootRelaxation.lp", this.tightIneqs);
+					registerLPmodelAfterCP("strengthedModelAfterRootRelaxation", this.tightIneqs);
 					//if(addedCuts.size()>0)
-					registerLPmodelAfterCP("strengthedModel.lp", addedCuts);
+					registerLPmodelAfterCP("strengthedModel", addedCuts);
 				} catch (IloException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

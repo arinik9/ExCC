@@ -661,7 +661,7 @@ public abstract class AbstractFormulation implements VariableValueProvider{
 			if(!p.triangleIneqReducedForm && value > 1E-4){
 				ok = true;
 			}
-			else if(p.triangleIneqReducedForm && w>0 && value > 1E-4){
+			else if(p.triangleIneqReducedForm && w>0 && value > 1E-4){ // TODO add another condition: formulationType == "vertex"
 				ok = true;
 			}
 			

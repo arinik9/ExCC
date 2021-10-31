@@ -592,7 +592,7 @@ public class CPVertex extends AbstractCuttingPlane<AbstractFormulation>{
 				// Export model with valid inequalities generated during lazy callback
 				// ================================================================================
 				//formulation.getCplex().iloCplex.exportModel(this.outputDir+"/"+"strengthedModelAfterRootRelaxation.lp");
-				formulation.getCplex().iloCplex.exportModel(this.outputDir+"/"+filenameLP);
+				formulation.getCplex().iloCplex.exportModel(this.outputDir+"/"+filenameLP+"_vertex.lp");
 
 				// ====================================================================================
 				
