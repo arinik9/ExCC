@@ -443,9 +443,10 @@ public class CPVertex extends AbstractCuttingPlane<AbstractFormulation>{
 		}
 		
 		/* Get the tight constraints */
-		this.tightIneqs =  this.getTightConstraints();
+		ArrayList<AbstractInequality<? extends AbstractFormulation>> tightIneqs;
+		tightIneqs =  this.getTightConstraints();
 //		ArrayList<Abstract_Inequality> ineq = this.getAllConstraints();
-		addedCuts.addAll(this.tightIneqs);
+		addedCuts.addAll(tightIneqs);
 
 		// indicate that the formulation/solution will be integer during the Branch&Bound
 		formulation.p.isInt = true;
@@ -477,7 +478,7 @@ public class CPVertex extends AbstractCuttingPlane<AbstractFormulation>{
 			}
 
 			/* Add the previously tight constraints to the formulation */
-			for(AbstractInequality<? extends AbstractFormulation> i : this.tightIneqs){
+			for(AbstractInequality<? extends AbstractFormulation> i : tightIneqs){
 
 				i.setFormulation(formulation);
 				try {
@@ -575,6 +576,7 @@ public class CPVertex extends AbstractCuttingPlane<AbstractFormulation>{
 			
 			try {
 				/* Create the partition with integer variables */
+				formulation.p.isInt = false;
 				formulation = new FormulationVertex((MyParam)formulation.p);
 
 				/* Add the previously tight constraints to the formulation */
@@ -602,6 +604,45 @@ public class CPVertex extends AbstractCuttingPlane<AbstractFormulation>{
 		
 		}
 	}
+	
+	
+	public void registerLPmodelAfterOptimal(String filenameLP,
+			ArrayList<AbstractInequality<? extends AbstractFormulation>> addedCuts
+			) throws IloException {
+
+		if(addedCuts.size()>0) {
+			
+			try {
+				/* Create the partition with integer variables */
+				formulation.p.isInt = true;
+				formulation = new FormulationVertex((MyParam)formulation.p);
+
+				/* Add the previously tight constraints to the formulation */
+				for(AbstractInequality<? extends AbstractFormulation> i : addedCuts){
+	
+					i.setFormulation(formulation);
+					try {
+						formulation.getCplex().addRange(i.createRange());
+					} catch (IloException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				// ================================================================================
+				// Export model with valid inequalities generated during lazy callback
+				// ================================================================================
+				//formulation.getCplex().iloCplex.exportModel(this.outputDir+"/"+"strengthedModelAfterRootRelaxation.lp");
+				formulation.getCplex().iloCplex.exportModel(this.outputDir+"/"+filenameLP+"_vertex.lp");
+
+				// ====================================================================================
+				
+			} catch (IloException e) {
+				e.printStackTrace();
+			}
+		
+		}
+	}
+	
 	
 	
     public TreeSet<ArrayList<Integer>> getMIPStartSolutionInArrayFormat(int[] membership){

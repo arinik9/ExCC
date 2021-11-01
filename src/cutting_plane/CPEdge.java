@@ -485,6 +485,45 @@ public class CPEdge extends AbstractCuttingPlane<AbstractFormulation>{
 			
 			try {
 				/* Create the partition with integer variables */
+				formulation.p.isInt = false;
+				formulation = new FormulationEdge((MyParam)formulation.p);
+
+				/* Add the previously tight constraints to the formulation */
+				for(AbstractInequality<? extends AbstractFormulation> i : addedCuts){
+	
+					i.setFormulation(formulation);
+					try {
+						formulation.getCplex().addRange(i.createRange());
+					} catch (IloException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				// ================================================================================
+				// Export model with valid inequalities generated during lazy callback
+				// ================================================================================
+				//formulation.getCplex().iloCplex.exportModel(this.outputDir+"/"+"strengthedModelAfterRootRelaxation.lp");
+				formulation.getCplex().iloCplex.exportModel(this.outputDir+"/"+filenameLP+"_edge.lp");
+
+				// ====================================================================================
+				
+			} catch (IloException e) {
+				e.printStackTrace();
+			}
+		
+		}
+	}
+	
+	
+	public void registerLPmodelAfterOptimal(String filenameLP,
+			ArrayList<AbstractInequality<? extends AbstractFormulation>> addedCuts
+			) throws IloException {
+	
+		if(addedCuts.size()>0) {
+			
+			try {
+				/* Create the partition with integer variables */
+				formulation.p.isInt = true;
 				formulation = new FormulationEdge((MyParam)formulation.p);
 
 				/* Add the previously tight constraints to the formulation */

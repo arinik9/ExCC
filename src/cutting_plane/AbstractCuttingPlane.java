@@ -484,11 +484,16 @@ public abstract class AbstractCuttingPlane<Formulation extends AbstractFormulati
 			if(this.verbose)
 				System.out.println("mod: find only one solution");
 			
+			
+			ArrayList<AbstractInequality<? extends AbstractFormulation>> tightIneqs2;
+			tightIneqs2 = this.getTightConstraints2();
+			
+			
+			
 			if(isInteger){
-				this.tightIneqs = this.getTightConstraints();
 
 				if(this.verbose)
-					System.out.println("\nSolution is integer after cp");
+					System.out.println("\nSolution is integer after cp ("+ tightIneqs2.size()+")");
 				
 				cpresult.bestRelaxation = -1.0;
 				cpresult.time = 0.0;
@@ -511,7 +516,7 @@ public abstract class AbstractCuttingPlane<Formulation extends AbstractFormulati
 			else if(!isInteger){
 				
 				if(this.verbose)
-					System.out.println("\nSolution is not integer after cp");
+					System.out.println("\nSolution is not integer after cp ("+ tightIneqs2.size()+")");
 				
 				if(!onlyFractionalSolution)
 					addedCuts = findIntSolutionAfterCP(tilim == -1 ? -1 : (tilim - cpresult.cp_time), bestMIP);
@@ -554,10 +559,13 @@ public abstract class AbstractCuttingPlane<Formulation extends AbstractFormulati
 			
 			//if(isInteger || onlyRootRelaxation){
 				try {
-					//System.out.println("\nGIRDI !!!!!" + addedCuts.size());
-					registerLPmodelAfterCP("strengthedModelAfterRootRelaxation", this.tightIneqs);
-					//if(addedCuts.size()>0)
-					registerLPmodelAfterCP("strengthedModel", addedCuts);
+					registerLPmodelAfterCP("strengthedModelAfterRootRelaxation", tightIneqs2);
+					
+					if(!isInteger){
+						registerLPmodelAfterOptimal("strengthedModel", addedCuts);
+					} else { // isInteger
+						registerLPmodelAfterOptimal("strengthedModel", tightIneqs2);
+					}
 				} catch (IloException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -593,6 +601,11 @@ public abstract class AbstractCuttingPlane<Formulation extends AbstractFormulati
 
 	
 	public abstract void registerLPmodelAfterCP(String filenameLP,
+			ArrayList<AbstractInequality<? extends AbstractFormulation>> addedCuts
+			) throws IloException;
+	
+	
+	public abstract void registerLPmodelAfterOptimal(String filenameLP,
 			ArrayList<AbstractInequality<? extends AbstractFormulation>> addedCuts
 			) throws IloException;
 	
@@ -701,6 +714,29 @@ public abstract class AbstractCuttingPlane<Formulation extends AbstractFormulati
 		return result;
 
 	}	
+	
+	
+	/**
+	 * Looks for tight constraints among all. >> when the solution is already integer after CP
+	 * 
+	 * @return Array which contain tight constraints
+	 */
+	public ArrayList<AbstractInequality<?>> getTightConstraints2(){
+
+		ArrayList<AbstractInequality<?>> result = new ArrayList<>();
+
+		for(CP_Separation<?> si : sep)
+			//if(si.toAddInBB){		
+				for(AbstractInequality<?> i : si.addedIneq){					
+					if(i.isTight(formulation.variableGetter())){		
+						result.add(i);
+					}
+				}
+			//}
+
+		return result;
+
+	}
 	
 	
 	
