@@ -51,7 +51,8 @@ To solve the CC problem we can either read a signed graph with a .G graph file f
 
 * Install [`IBM CPlex`](https://www.ibm.com/docs/en/icos/20.1.0?topic=2010-installing-cplex-optimization-studio). The default installation location is: `/opt/ibm/ILOG/CPLEX_Studio<YOUR_VERSION>`. Tested with Cplex 12.8 and 20.1.
 *  Put `/opt/ibm/ILOG/CPLEX_Studio<YOUR_VERSION>/cplex/lib/cplex.jar` into the `lib` folder in this repository.
-* Compile and get the jar file for *ExCC*: `ant -v -buildfile build.xml compile jar`.
+* Change the value of the Cplex installation path in line 34 of the file `build.xml` according to your Cplex installation.
+* Compile and get the jar file for *ExCC*: `ant -v -buildfile build.xml clean compile jar`.
 * Run one of the scripts *.sh* available in this repository.
 
 ### Examples
